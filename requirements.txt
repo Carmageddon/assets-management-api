@@ -1,0 +1,5 @@
+Flask
+Flask-PyMongo
+Marshmallow
+flask-restx
+uuid
