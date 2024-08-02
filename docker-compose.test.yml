@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data-test:/data/db
+    command: mongod --quiet --logpath /dev/null 
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - FLASK_APP=app.main
+      - FLASK_ENV=testing
+      - MONGO_URI=mongodb://mongo:27017/testDatabase
+    depends_on:
+      - mongo
+    command: ["pytest", "--tb=short", "-q"]
+
+volumes:
+  mongo-data-test:
